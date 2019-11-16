@@ -4,13 +4,14 @@ php:
   - 7.2
   - 7.3
 
-install: echo 'APP_ENV=dev' >> .env.local && composer install
+install: composer install
 
 script: composer run-coverage
 
 env:
   global:
     - CC_TEST_REPORTER_ID=f90bdc6d7ff67ac3d734f3c01527980813c3f50225e4ecf873b77b11e6f0bea3
+    - APP_ENV=dev
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
