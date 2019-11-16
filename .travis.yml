@@ -4,9 +4,9 @@ php:
   - 7.2
   - 7.3
 
-install: composer install
+install: echo 'APP_ENV=dev' >> .env.local && composer install
 
-script: echo 'APP_ENV=dev' >> .env.local && composer run-coverage
+script: composer run-coverage
 
 env:
   global:
