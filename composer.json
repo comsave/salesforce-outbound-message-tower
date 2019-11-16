@@ -1,0 +1,15 @@
+{
+    "name": "comsave/salesforce-outbound-message-tower",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.2"
+    },
+    "authors": [
+        {
+            "name": "Vaidas Bagdonas",
+            "email": "vaidas.bagdonas@comsave.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
