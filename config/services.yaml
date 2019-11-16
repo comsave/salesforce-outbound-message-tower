@@ -28,12 +28,12 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Services\MessageReceiver:
         arguments:
-            - $broadcastMessagesDir: '%broadcast_messages_dir%'
+            $broadcastMessagesDir: '%broadcast_messages_dir%'
 
     App\Services\NextMessageSelector:
         arguments:
-            - $broadcastMessagesDir: '%broadcast_messages_dir%'
+            $broadcastMessagesDir: '%broadcast_messages_dir%'
 
     App\Services\ProcessedMessageRemover:
         arguments:
-            - $broadcastMessagesDir: '%broadcast_messages_dir%'
+            $broadcastMessagesDir: '%broadcast_messages_dir%'
