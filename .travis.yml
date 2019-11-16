@@ -6,7 +6,7 @@ php:
 
 install: composer install
 
-script: composer run-coverage
+script: echo 'APP_ENV=dev' >> .env.local && composer run-coverage
 
 env:
   global:
