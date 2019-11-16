@@ -14,6 +14,8 @@
     },
     "require-dev": {
         "symfony/web-server-bundle": "4.3.*"
+        "phpunit/php-code-coverage": "^6.0",
+        "phpunit/phpunit": "^7.0"
     },
     "config": {
         "preferred-install": {
@@ -49,7 +51,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "run-tests": "vendor/bin/phpunit --no-coverage",
+        "run-coverage": "vendor/bin/phpunit --coverage-clover tests/_output/coverage.xml",
+        "run-coverage-text": "vendor/bin/phpunit --coverage-text=tests/_output/coverage.txt && cat tests/_output/coverage.txt"
     },
     "conflict": {
         "symfony/symfony": "*"
