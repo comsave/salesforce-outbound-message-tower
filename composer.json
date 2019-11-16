@@ -13,9 +13,10 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
-        "symfony/web-server-bundle": "4.3.*",
         "phpunit/php-code-coverage": "^6.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "symfony/phpunit-bridge": "^4.3",
+        "symfony/web-server-bundle": "4.3.*"
     },
     "config": {
         "preferred-install": {
