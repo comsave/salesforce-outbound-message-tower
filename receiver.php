@@ -1,6 +1,6 @@
 <?php
 
-define('BASE_DIR', dirname(__FILE__));
+require_once 'config.php';
 
 function get_salesforce_notification_id(string $requestXml): ?string {
     $requestXml = str_ireplace(['soapenv:', 'soap:', 'sf:'], '', $requestXml);
@@ -9,12 +9,10 @@ function get_salesforce_notification_id(string $requestXml): ?string {
     return @$simpleXml->Body->notifications->ActionId ?? null;
 }
 
-function save_salesforce_notification(string $notificationId, string $requestXml): string {
-    $notificationMessageFilePath = sprintf('messages/%s.xml', $notificationId);
+function save_salesforce_notification(string $notificationId, string $requestXml): void {
+    $notificationMessageFilePath = sprintf('%s/%s.xml', APP_MESSAGE_DIR, $notificationId);
 
-    @file_put_contents(BASE_DIR . DIRECTORY_SEPARATOR . $notificationMessageFilePath, $requestXml);
-
-    return $notificationMessageFilePath;
+    @file_put_contents($notificationMessageFilePath, $requestXml);
 }
 
 $requestXml = file_get_contents('php://input');
