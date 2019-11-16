@@ -10,9 +10,9 @@ function get_salesforce_notification_id(string $requestXml): ?string {
 }
 
 function save_salesforce_notification(string $notificationId, string $requestXml): void {
-    $notificationMessageFilePath = sprintf('%s/%s.xml', APP_MESSAGE_DIR, $notificationId);
+    $broadcastMessageFile = sprintf('%s/%s.xml', APP_MESSAGE_DIR, $notificationId);
 
-    @file_put_contents($notificationMessageFilePath, $requestXml);
+    @file_put_contents($broadcastMessageFile, $requestXml);
 }
 
 $requestXml = file_get_contents('php://input');
