@@ -29,7 +29,7 @@ class ProcessedMessageRemover
     {
         $this->messageNotificationIdValidator->validate($notificationId);
 
-        $broadcastMessageFile = sprintf('%s/%s.xml', APP_MESSAGE_DIR, $notificationId);
+        $broadcastMessageFile = sprintf('%s/%s.xml', $this->broadcastMessagesDir, $notificationId);
 
         @unlink($broadcastMessageFile);
     }

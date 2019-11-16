@@ -7,7 +7,7 @@ broadcast:
     controller: App\Controller\BroadcasterController::broadcast
 
 broadcast_processed:
-    path: /broadcast/processed
+    path: /broadcast/processed/{notificationId}
     controller: App\Controller\BroadcasterController::broadcastProcessed
 
 receiver:
