@@ -4,11 +4,11 @@ index:
 
 broadcast:
     path: /broadcast
-    controller: App\Controller\BroadcastController::broadcast
+    controller: App\Controller\BroadcasterController::broadcast
 
 broadcast_processed:
     path: /broadcast/processed
-    controller: App\Controller\BroadcastController::broadcastProcessed
+    controller: App\Controller\BroadcasterController::broadcastProcessed
 
 receiver:
     path: /receive
