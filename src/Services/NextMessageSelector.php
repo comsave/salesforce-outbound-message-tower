@@ -23,9 +23,12 @@ class NextMessageSelector
     {
         $messageFiles = glob(sprintf('%s/*.xml', $this->broadcastMessagesDir));
 
-        usort($messageFiles, function (string $messageFileA, string $messageFileB) {
-            return filemtime($messageFileA) > filemtime($messageFileB);
-        });
+        usort(
+            $messageFiles,
+            function (string $messageFileA, string $messageFileB) {
+                return filemtime($messageFileA) > filemtime($messageFileB);
+            }
+        );
 
         return $messageFiles[0] ?? null;
     }

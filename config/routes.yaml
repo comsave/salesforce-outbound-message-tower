@@ -3,13 +3,13 @@ index:
     controller: App\Controller\IndexController::index
 
 broadcast:
-    path: /broadcast
+    path: /{channelName}/broadcast
     controller: App\Controller\BroadcasterController::broadcast
 
 broadcast_processed:
-    path: /broadcast/processed/{notificationId}
+    path: /{channelName}/broadcast/processed/{notificationId}
     controller: App\Controller\BroadcasterController::broadcastProcessed
 
 receiver:
-    path: /receive
+    path: /{channelName}/receive
     controller: App\Controller\ReceiverController::receiveMessage
