@@ -14,11 +14,9 @@ class ReceiverController extends AbstractController
     {
         $notificationId = $messageReceiver->receive($request->getContent());
 
-        return new JsonResponse(
-            [
-                'status' => 'OK',
-                'message' => sprintf('Received notification `%s`.', $notificationId),
-            ], Response::HTTP_OK
-        );
+        return new JsonResponse([
+            'status' => 'OK',
+            'message' => sprintf('Received notification `%s`.', $notificationId),
+        ], Response::HTTP_OK);
     }
 }

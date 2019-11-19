@@ -4,6 +4,7 @@
     "license": "MIT",
     "require": {
         "php": ">=7.2",
+        "ext-SimpleXML": "^7.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "symfony/console": "4.3.*",
