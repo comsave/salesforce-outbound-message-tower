@@ -14,7 +14,7 @@ class BroadcastMessagePathFactory
 
     public function getMessageDirectory(string $channelName): string
     {
-        return sprintf('%s/%s', $channelName, $this->broadcastMessagesDir);
+        return sprintf('%s/%s', $this->broadcastMessagesDir, $channelName);
     }
 
     public function getMessageFilePath(string $channelName, string $notificationId): string

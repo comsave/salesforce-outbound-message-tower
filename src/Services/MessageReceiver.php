@@ -36,6 +36,7 @@ class MessageReceiver
         $this->messageNotificationIdValidator->validate($notificationId);
 
         $broadcastMessageFile = $this->broadcastMessageFactory->getMessageFilePath($channelName, $notificationId);
+        mkdir(dirname($broadcastMessageFile));
         @file_put_contents($broadcastMessageFile, $xmlRequest);
 
         return $notificationId;

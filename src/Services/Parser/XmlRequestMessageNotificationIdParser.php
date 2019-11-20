@@ -14,8 +14,6 @@ class XmlRequestMessageNotificationIdParser
             throw new OutboundMessageTowerException('Failed to parse `notificationId`.');
         }
 
-
-
         return $notificaitonId;
     }
 
