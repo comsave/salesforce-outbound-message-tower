@@ -14,7 +14,23 @@ class BroadcasterController extends AbstractController
 {
     public function broadcast(NextMessageSelector $nextMessageSelector, string $channelName): Response
     {
-        return new Response($nextMessageSelector->nextMessage(), Response::HTTP_OK, [
+        try {
+            $nextMessage = $nextMessageSelector->nextMessage($channelName);
+        }
+        catch (OutboundMessageTowerException $ex) {
+            return new JsonResponse([
+                'status' => 'Error',
+                'message' => sprintf($ex->getMessage()),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        catch (\Throwable $ex) {
+            return new JsonResponse([
+                'status' => 'Error',
+                'message' => 'Failed unexpectedly. Look for details in the logs.',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        return new Response($nextMessage, Response::HTTP_OK, [
             'Content-Type' => 'text/xml',
         ]);
     }
@@ -27,6 +43,12 @@ class BroadcasterController extends AbstractController
             return new JsonResponse([
                 'status' => 'Error',
                 'message' => sprintf($ex->getMessage()),
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        catch (\Throwable $ex) {
+            return new JsonResponse([
+                'status' => 'Error',
+                'message' => 'Failed unexpectedly. Look for details in the logs.',
             ], Response::HTTP_BAD_REQUEST);
         }
 
