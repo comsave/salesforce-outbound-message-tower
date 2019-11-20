@@ -11,4 +11,4 @@ public/messages
 .git
 .dockerignore
 .travis.yml
-var
+var/*
