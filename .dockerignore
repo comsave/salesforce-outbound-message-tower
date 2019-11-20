@@ -2,7 +2,6 @@
 /.env.local.php
 /.env.*.local
 /public/bundles/
-/vendor/
 
 .idea/
 public/messages
