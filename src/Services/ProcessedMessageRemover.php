@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Exception\OutboundMessageTowerException;
 use App\Services\Factory\BroadcastMessagePathFactory;
 use App\Services\Validator\MessageNotificationIdValidator;
 

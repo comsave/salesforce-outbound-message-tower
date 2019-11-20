@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 class ReceiverController extends AbstractController
 {
@@ -22,8 +23,7 @@ class ReceiverController extends AbstractController
                 'status' => 'Error',
                 'message' => sprintf($ex->getMessage()),
             ], Response::HTTP_BAD_REQUEST);
-        }
-        catch (\Throwable $ex) {
+        } catch (Throwable $ex) {
             return new JsonResponse([
                 'status' => 'Error',
                 'message' => 'Failed unexpectedly. Look for details in the logs.',

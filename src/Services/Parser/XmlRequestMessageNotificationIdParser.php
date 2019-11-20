@@ -3,6 +3,7 @@
 namespace App\Services\Parser;
 
 use App\Exception\OutboundMessageTowerException;
+use SimpleXMLElement;
 
 class XmlRequestMessageNotificationIdParser
 {
@@ -10,7 +11,7 @@ class XmlRequestMessageNotificationIdParser
     {
         $notificaitonId = $this->getSalesforceNotificationId($xmlRequest);
 
-        if(!$notificaitonId) {
+        if (!$notificaitonId) {
             throw new OutboundMessageTowerException('Failed to parse `notificationId`.');
         }
 
@@ -20,7 +21,7 @@ class XmlRequestMessageNotificationIdParser
     private function getSalesforceNotificationId(string $xmlRequest): ?string
     {
         $xmlRequest = str_ireplace(['soapenv:', 'soap:', 'sf:'], '', $xmlRequest);
-        $simpleXml = new \SimpleXMLElement($xmlRequest);
+        $simpleXml = new SimpleXMLElement($xmlRequest);
 
         return @$simpleXml->Body->notifications->ActionId ?? null;
     }

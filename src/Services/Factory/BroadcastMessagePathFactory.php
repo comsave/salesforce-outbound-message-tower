@@ -16,7 +16,7 @@ class BroadcastMessagePathFactory
     {
         $messageDir = sprintf('%s/%s', $this->broadcastMessagesDir, $channelName);
 
-        if(!file_exists($messageDir)) {
+        if (!file_exists($messageDir)) {
             mkdir($messageDir);
         }
 
