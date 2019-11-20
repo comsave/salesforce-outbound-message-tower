@@ -6,8 +6,16 @@ Salesforce outbound message receiver and broadcaster for development environment
 
 ---
 ## Server side
-This 
+Routes are as follows:
+
+* *server* `/{channelName}/receive` you send Salesforce outbound messages here
+* *client* `/{channelName}/broadcast` get the next unprocessed message 
+* *client* `/{channelName}/broadcast/processed/{notificationId}` mark notification as processed 
+
 ## Client side
+Automatic listening for unprocessed messages & marking as processed afterwards.
+
 [salesforce-outbound-message-tower-bundle](https://github.com/comsave/salesforce-outbound-message-tower-bundle)
+
 ## To do
-* cleanup command for notifications older than 1 month for example
+* cleanup command for notifications older than X
