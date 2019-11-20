@@ -2,39 +2,42 @@
 
 namespace App\Services;
 
-use SimpleXMLElement;
+use App\Services\Factory\BroadcastMessagePathFactory;
+use App\Services\Parser\XmlRequestMessageNotificationIdParser;
+use App\Services\Validator\MessageNotificationIdValidator;
 
 class MessageReceiver
 {
-    /** @var string */
-    private $broadcastMessagesDir;
+    /** @var BroadcastMessagePathFactory */
+    private $broadcastMessageFactory;
 
-    public function __construct(string $broadcastMessagesDir)
-    {
-        $this->broadcastMessagesDir = $broadcastMessagesDir;
+    /** @var XmlRequestMessageNotificationIdParser */
+    private $xmlRequestMessageNotificationIdParser;
+
+    /** @var MessageNotificationIdValidator */
+    private $messageNotificationIdValidator;
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function __construct(
+        BroadcastMessagePathFactory $broadcastMessageFactory,
+        XmlRequestMessageNotificationIdParser $xmlRequestMessageNotificationIdParser,
+        MessageNotificationIdValidator $messageNotificationIdValidator
+    ) {
+        $this->broadcastMessageFactory = $broadcastMessageFactory;
+        $this->xmlRequestMessageNotificationIdParser = $xmlRequestMessageNotificationIdParser;
+        $this->messageNotificationIdValidator = $messageNotificationIdValidator;
     }
 
-    public function receive(string $requestXml): string
+    public function receive(string $channelName, string $xmlRequest): string
     {
-        $notificationId = $this->getSalesforceNotificationId($requestXml);
+        $notificationId = $this->xmlRequestMessageNotificationIdParser->parse($xmlRequest);
+        $this->messageNotificationIdValidator->validate($notificationId);
 
-        $this->saveSalesforceNotification($notificationId, $requestXml);
+        $broadcastMessageFile = $this->broadcastMessageFactory->getMessageFilePath($channelName, $notificationId);
+        @file_put_contents($broadcastMessageFile, $xmlRequest);
 
         return $notificationId;
-    }
-
-    private function getSalesforceNotificationId(string $requestXml): ?string
-    {
-        $requestXml = str_ireplace(['soapenv:', 'soap:', 'sf:'], '', $requestXml);
-        $simpleXml = new SimpleXMLElement($requestXml);
-
-        return @$simpleXml->Body->notifications->ActionId ?? null;
-    }
-
-    private function saveSalesforceNotification(string $notificationId, string $requestXml): void
-    {
-        $broadcastMessageFile = sprintf('%s/%s.xml', $this->broadcastMessagesDir, $notificationId);
-
-        @file_put_contents($broadcastMessageFile, $requestXml);
     }
 }

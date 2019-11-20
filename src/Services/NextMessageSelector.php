@@ -2,26 +2,31 @@
 
 namespace App\Services;
 
+use App\Services\Factory\BroadcastMessagePathFactory;
+
 class NextMessageSelector
 {
-    /** @var string */
-    private $broadcastMessagesDir;
+    /** @var BroadcastMessagePathFactory */
+    private $broadcastMessageFactory;
 
-    public function __construct(string $broadcastMessagesDir)
+    /**
+     * @codeCoverageIgnore
+     */
+    public function __construct(BroadcastMessagePathFactory $broadcastMessageFactory)
     {
-        $this->broadcastMessagesDir = $broadcastMessagesDir;
+        $this->broadcastMessageFactory = $broadcastMessageFactory;
     }
 
-    public function nextMessage(): ?string
+    public function nextMessage(string $channelName): ?string
     {
-        $nextMessageFile = $this->nextMessageFile();
+        $nextMessageFile = $this->nextMessageFile($channelName);
 
         return $nextMessageFile ? file_get_contents($nextMessageFile) : null;
     }
 
-    public function nextMessageFile(): ?string
+    public function nextMessageFile(string $channelName): ?string
     {
-        $messageFiles = glob(sprintf('%s/*.xml', $this->broadcastMessagesDir));
+        $messageFiles = glob($this->broadcastMessageFactory->getMessageFilePath($channelName, '*'));
 
         usort($messageFiles, function (string $messageFileA, string $messageFileB) {
             return filemtime($messageFileA) > filemtime($messageFileB);

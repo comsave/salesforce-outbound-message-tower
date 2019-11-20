@@ -10,9 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReceiverController extends AbstractController
 {
-    public function receiveMessage(string $channelName, Request $request, MessageReceiver $messageReceiver): Response
+    public function receiveMessage(Request $request, MessageReceiver $messageReceiver, string $channelName): Response
     {
-        $notificationId = $messageReceiver->receive($request->getContent());
+        $xmlRequest = $request->getContent();
+        $notificationId = $messageReceiver->receive($channelName, $xmlRequest);
 
         return new JsonResponse([
             'status' => 'OK',

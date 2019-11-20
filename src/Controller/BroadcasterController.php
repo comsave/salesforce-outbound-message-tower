@@ -12,19 +12,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BroadcasterController extends AbstractController
 {
-    public function broadcast(string $channelName, NextMessageSelector $nextMessageSelector): Response
+    public function broadcast(NextMessageSelector $nextMessageSelector, string $channelName): Response
     {
         return new Response($nextMessageSelector->nextMessage(), Response::HTTP_OK, [
             'Content-Type' => 'text/xml',
         ]);
     }
 
-    public function broadcastProcessed(string $channelName, Request $request, ProcessedMessageRemover $processedMessageRemover): Response
+    public function broadcastProcessed(Request $request, ProcessedMessageRemover $processedMessageRemover, string $channelName, string $notificationId): Response
     {
-        $notificationId = $request->get('notificationId');
-
         try {
-            $processedMessageRemover->remove($notificationId);
+            $processedMessageRemover->remove($channelName, $notificationId);
         } catch (OutboundMessageTowerException $ex) {
             return new JsonResponse([
                 'status' => 'Error',

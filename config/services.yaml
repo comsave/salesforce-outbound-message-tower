@@ -26,14 +26,6 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    App\Services\MessageReceiver:
-        arguments:
-            $broadcastMessagesDir: '%broadcast_messages_dir%'
-
-    App\Services\NextMessageSelector:
-        arguments:
-            $broadcastMessagesDir: '%broadcast_messages_dir%'
-
-    App\Services\ProcessedMessageRemover:
+    App\Services\Factory\BroadcastMessagePathFactory:
         arguments:
             $broadcastMessagesDir: '%broadcast_messages_dir%'

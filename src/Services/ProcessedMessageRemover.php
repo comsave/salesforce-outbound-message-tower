@@ -3,33 +3,33 @@
 namespace App\Services;
 
 use App\Exception\OutboundMessageTowerException;
-use App\Validator\MessageNotificationIdValidator;
+use App\Services\Factory\BroadcastMessagePathFactory;
+use App\Services\Validator\MessageNotificationIdValidator;
 
 class ProcessedMessageRemover
 {
+    /** @var BroadcastMessagePathFactory */
+    private $broadcastMessageFactory;
+
     /** @var MessageNotificationIdValidator */
     private $messageNotificationIdValidator;
 
-    /** @var string */
-    private $broadcastMessagesDir;
-
+    /**
+     * @codeCoverageIgnore
+     */
     public function __construct(
-        MessageNotificationIdValidator $messageNotificationIdValidator,
-        string $broadcastMessagesDir
+        BroadcastMessagePathFactory $broadcastMessageFactory,
+        MessageNotificationIdValidator $messageNotificationIdValidator
     ) {
+        $this->broadcastMessageFactory = $broadcastMessageFactory;
         $this->messageNotificationIdValidator = $messageNotificationIdValidator;
-        $this->broadcastMessagesDir = $broadcastMessagesDir;
     }
 
-    /**
-     * @param string|null $notificationId
-     * @throws OutboundMessageTowerException
-     */
-    public function remove(?string $notificationId): void
+    public function remove(string $channelName, string $notificationId): void
     {
         $this->messageNotificationIdValidator->validate($notificationId);
 
-        $broadcastMessageFile = sprintf('%s/%s.xml', $this->broadcastMessagesDir, $notificationId);
+        $broadcastMessageFile = $this->broadcastMessageFactory->getMessageFilePath($channelName, $notificationId);
 
         @unlink($broadcastMessageFile);
     }
