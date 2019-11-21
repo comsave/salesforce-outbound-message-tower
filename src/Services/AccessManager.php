@@ -17,42 +17,54 @@ class AccessManager
     /**
      * @codeCoverageIgnore
      */
-    public function __construct(string $userIpRequestHeaderName, string $salesforceServerIps, string $towerClientIps)
+    public function __construct(string $userIpRequestHeaderName, ?string $allowedIps = '')
     {
         $this->userIpRequestHeaderName = $userIpRequestHeaderName;
 
-        $this->parseSubnetsToIpAddresses(array_merge(
-            explode(',', $salesforceServerIps),
-            explode(',', $towerClientIps)
-        ));
+        var_dump($allowedIps);
+        $this->allowedIps = array_filter(explode(',', $allowedIps));
+
+        $this->parseSubnetsToIpAddresses();
     }
 
-    public function isAllowed(Request $request): array
+    public function parseSubnetsToIpAddresses(): void
     {
+        $parsedIpAddresses = [];
+
+        foreach ($this->getAllowedIps() as $allowedIp) {
+            list($ip, $networkSize) = explode('/', $allowedIp);
+
+            if ($networkSize > 0) {
+                $subnet = new SubnetCalculator($ip, (int)$networkSize);
+
+                foreach ($subnet->getAllIPAddresses() as $subnetIp) {
+                    $parsedIpAddresses[] = $subnetIp;
+                }
+            }
+        }
+
+        $this->allowedIps = $this->getAllowedIps() + $parsedIpAddresses;
+    }
+
+    public function getAllowedIps(): array
+    {
+        return $this->allowedIps;
+    }
+
+    public function isAllowed(Request $request): void
+    {
+        if (!$this->getAllowedIps() || !is_array($this->getAllowedIps()) || count($this->getAllowedIps()) <= 0) {
+            return;
+        }
+
         $userIp = $request->headers->get($this->userIpRequestHeaderName);
 
-        if(!$userIp) {
+        if (!$userIp) {
             throw new OutboundMessageTowerException(sprintf('User IP is not set in request header `%s`.', $this->userIpRequestHeaderName));
         }
 
-        return in_array($userIp, $this->allowedIps);
-    }
-
-    private function parseSubnetsToIpAddresses(array $allowedIps): void
-    {
-        foreach($allowedIps as $allowedIp) {
-            list($ip, $networkSize) = explode('/', $allowedIp);
-
-            if($networkSize > 0) {
-                $subnet = new SubnetCalculator($ip, (int)$networkSize);
-
-                foreach($subnet->getAllIPAddresses() as $subnetIp) {
-                    $this->allowedIps[] = $subnetIp;
-                }
-            }
-            else {
-                $this->allowedIps = $allowedIp;
-            }
+        if (!in_array($userIp, $this->getAllowedIps())) {
+            throw new OutboundMessageTowerException(sprintf('User IP `%s` is no granted access.', $userIp));
         }
     }
 }
