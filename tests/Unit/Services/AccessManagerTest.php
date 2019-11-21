@@ -18,8 +18,8 @@ class AccessManagerTest extends TestCase
      */
     public function testUserShouldBeAllowedIfNoIpRestrictionsAreSet(): void
     {
-        $this->markTestSkipped();
-        $accessManager = new AccessManager('REMOTE_ADDR', null);
+        $userIpRequestHeaderName = 'REMOTE_ADDR';
+        $accessManager = new AccessManager($userIpRequestHeaderName, null);
 
         /** @var Request|MockObject $requestMock */
         $requestMock = $this->createMock(Request::class);
@@ -31,11 +31,71 @@ class AccessManagerTest extends TestCase
     }
 
     /**
+     * @covers ::isAllowed()
+     * @expectedException \App\Exception\OutboundMessageTowerException
+     */
+    public function testThrowsExceptionIfUserIpIsNotFound(): void
+    {
+        $userIpRequestHeaderName = 'REMOTE_ADDR';
+        $accessManager = new AccessManager($userIpRequestHeaderName, '127.0.0.1');
+
+        /** @var Request|MockObject $requestMock */
+        $requestMock = $this->createMock(Request::class);
+        $requestMock->headers = $this->createMock(HeaderBag::class);
+        $requestMock->headers->expects($this->once())
+            ->method('get')
+            ->with($userIpRequestHeaderName)
+            ->willReturn(null);
+
+        $accessManager->isAllowed($requestMock);
+    }
+
+    /**
+     * @covers ::isAllowed()
+     * @expectedException \App\Exception\OutboundMessageTowerException
+     */
+    public function testThrowsExceptionIfUserIpIsNotAllowed(): void
+    {
+        $userIpRequestHeaderName = 'REMOTE_ADDR';
+        $accessManager = new AccessManager($userIpRequestHeaderName, '127.0.0.1');
+
+        /** @var Request|MockObject $requestMock */
+        $requestMock = $this->createMock(Request::class);
+        $requestMock->headers = $this->createMock(HeaderBag::class);
+        $requestMock->headers->expects($this->once())
+            ->method('get')
+            ->with($userIpRequestHeaderName)
+            ->willReturn('127.0.0.100');
+
+        $accessManager->isAllowed($requestMock);
+    }
+
+    /**
+     * @covers ::isAllowed()
+     */
+    public function testPassWithoutExceptionsIfUserIpIsAllowed(): void
+    {
+        $userIpRequestHeaderName = 'REMOTE_ADDR';
+        $accessManager = new AccessManager($userIpRequestHeaderName, '127.0.0.1,127.0.0.100');
+
+        /** @var Request|MockObject $requestMock */
+        $requestMock = $this->createMock(Request::class);
+        $requestMock->headers = $this->createMock(HeaderBag::class);
+        $requestMock->headers->expects($this->once())
+            ->method('get')
+            ->with($userIpRequestHeaderName)
+            ->willReturn('127.0.0.100');
+
+        $accessManager->isAllowed($requestMock);
+    }
+
+    /**
      * @covers ::parseSubnetsToIpAddresses()
      */
     public function testParsesSubnetIpAddressesCorrectly(): void
     {
-        $accessManager = new AccessManager('REMOTE_ADDR', '13.108.238.128/28');
+        $userIpRequestHeaderName = 'REMOTE_ADDR';
+        $accessManager = new AccessManager($userIpRequestHeaderName, '13.108.238.128/28');
 
         /** @var Request|MockObject $requestMock */
         $requestMock = $this->createMock(Request::class);
