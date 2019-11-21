@@ -17,3 +17,9 @@ services:
     App\Services\Factory\BroadcastMessagePathFactory:
         arguments:
             $broadcastMessagesDir: '%broadcast_messages_dir%'
+
+    App\Services\AccessManager:
+        arguments:
+            $userIpRequestHeaderName: '%env(APP_SALESFORCE_SERVER_IPS)%'
+            $salesforceServerIps: '%env(APP_SALESFORCE_SERVER_IPS)%'
+            $towerClientIps: '%env(APP_TOWER_CLIENT_IPS)%'
