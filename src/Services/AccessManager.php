@@ -21,7 +21,6 @@ class AccessManager
     {
         $this->userIpRequestHeaderName = $userIpRequestHeaderName;
 
-        var_dump($allowedIps);
         $this->allowedIps = array_filter(explode(',', $allowedIps));
 
         $this->parseSubnetsToIpAddresses();
@@ -31,14 +30,16 @@ class AccessManager
     {
         $parsedIpAddresses = [];
 
-        foreach ($this->getAllowedIps() as $allowedIp) {
-            list($ip, $networkSize) = explode('/', $allowedIp);
+        foreach ($this->getAllowedIps() as $allowedIpKey => $allowedIp) {
+            list($subnetIp, $networkSize) = explode('/', $allowedIp . '/');
 
             if ($networkSize > 0) {
-                $subnet = new SubnetCalculator($ip, (int)$networkSize);
+                unset($this->allowedIps[$allowedIpKey]);
 
-                foreach ($subnet->getAllIPAddresses() as $subnetIp) {
-                    $parsedIpAddresses[] = $subnetIp;
+                $subnet = new SubnetCalculator($subnetIp, (int)$networkSize);
+
+                foreach ($subnet->getAllIPAddresses() as $ipAddress) {
+                    $parsedIpAddresses[] = $ipAddress;
                 }
             }
         }
