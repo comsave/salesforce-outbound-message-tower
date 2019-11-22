@@ -16,6 +16,9 @@ RUN apk update && \
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/php-fpm.conf /etc/php7/php-fpm.d/www.conf
 
+COPY ./docker/crontab /var/www/crontab
+RUN crontab /var/www/crontab
+
 WORKDIR /var/www/html/
 
 COPY --chown=nobody:nobody ./ ./
