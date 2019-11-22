@@ -26,12 +26,18 @@ class NextMessageSelector
 
     public function nextMessageFile(string $channelName): ?string
     {
-        $messageFiles = glob($this->broadcastMessageFactory->getMessageFilePath($channelName, '*'));
+        return $this->getAllMessageFiles($channelName)[0] ?? null;
+    }
+
+    public function getAllMessageFiles(string $channelName): array
+    {
+        $messageDir = $this->broadcastMessageFactory->getMessageFilePath($channelName, '*');
+        $messageFiles = glob($messageDir) ?: [];
 
         usort($messageFiles, function (string $messageFileA, string $messageFileB) {
             return filemtime($messageFileA) > filemtime($messageFileB);
         });
 
-        return $messageFiles[0] ?? null;
+        return $messageFiles;
     }
 }

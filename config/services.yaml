@@ -1,5 +1,5 @@
 parameters:
-    broadcast_messages_dir: '../%env(APP_BROADCAST_MESSAGES_DIR)%'
+    broadcast_messages_dir: '%kernel.project_dir%/%env(APP_BROADCAST_MESSAGES_DIR)%'
 
 services:
     _defaults:
