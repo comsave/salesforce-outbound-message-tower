@@ -18,10 +18,10 @@ monolog:
         deduplicated:
             type: deduplication
             time: 180
-            level: critical
             handler: slack_errors
         slack_errors:
             type:        slack
+            level: critical
             token:       '%slack_token%'
             channel:     '%slack_channel%'
             bot_name:    '%slack_bot_name%'
