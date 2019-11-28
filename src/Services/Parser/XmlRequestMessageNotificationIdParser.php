@@ -23,6 +23,6 @@ class XmlRequestMessageNotificationIdParser
         $xmlRequest = str_ireplace(['soapenv:', 'soap:', 'sf:'], '', $xmlRequest);
         $simpleXml = new SimpleXMLElement($xmlRequest);
 
-        return @$simpleXml->Body->notifications->ActionId ?? null;
+        return @$simpleXml->Body->notifications->Notification->Id ?? null;
     }
 }
