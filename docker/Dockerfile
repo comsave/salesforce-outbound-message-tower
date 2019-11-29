@@ -11,7 +11,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 RUN apk update && \
     apk add \
        php-simplexml \
-       php-iconv
+       php-iconv \
+       php-opcache
 
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/php-fpm.conf /etc/php7/php-fpm.d/www.conf
