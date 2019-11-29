@@ -32,6 +32,7 @@ class MessageReceiver
 
     public function receive(string $channelName, string $xmlRequest): string
     {
+        $xmlRequest = trim($xmlRequest);
         $notificationId = $this->xmlRequestMessageNotificationIdParser->parse($xmlRequest);
         $this->messageNotificationIdValidator->validate($notificationId);
 
