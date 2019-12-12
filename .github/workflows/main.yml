@@ -6,6 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@v1
       - run: git push --mirror https://bitbucket.org:comsave/salesforce-outbound-message-tower.git
 #       - uses: wearerequired/git-mirror-action@master
 #         env:
