@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: alpine:3.10
+    runs-on: ubuntu-18.04
     steps:
       - run: apk install --no-cache --update openssh git
       - uses: wearerequired/git-mirror-action@master
