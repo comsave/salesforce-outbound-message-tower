@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - run: ls -la && cd ./salesforce-outbound-message-tower && git push --mirror https://${{ secrets.BITBUCKET_USERNAME }}:${{ secrets.BITBUCKET_PASSWORD }}@bitbucket.org/comsave/salesforce-outbound-message-tower.git
+      - run: git push --mirror https://${{ secrets.BITBUCKET_USERNAME }}:${{ secrets.BITBUCKET_PASSWORD }}@bitbucket.org/comsave/salesforce-outbound-message-tower.git
