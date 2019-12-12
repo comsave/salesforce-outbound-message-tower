@@ -1,0 +1,14 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wearerequired/git-mirror-action@master
+      - env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - with:
+          source-repo: 'git@github.com:comsave/salesforce-outbound-message-tower.git'
+          destination-repo: 'git@bitbucket.org:comsave/salesforce-outbound-message-tower.git'
