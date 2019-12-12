@@ -8,4 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: git remote add bitbucket https://${{ secrets.BITBUCKET_USERNAME }}:${{ secrets.BITBUCKET_PASSWORD }}@bitbucket.org/comsave/salesforce-outbound-message-tower.git
-      - run: git push bitbucket $(git rev-parse --abbrev-ref HEAD) -f
+      - run: git push bitbucket master
