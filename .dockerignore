@@ -1,0 +1,14 @@
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+
+.idea/
+public/messages
+!public/messages/.gitkeep
+/phpunit.xml
+
+.git
+.dockerignore
+.travis.yml
+var/*

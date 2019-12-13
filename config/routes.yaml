@@ -2,14 +2,20 @@ index:
     path: /
     controller: App\Controller\IndexController::index
 
+receiver:
+    path: /{channelName}/receive
+    controller: App\Controller\ReceiverController::receiveMessage
+    requirements:
+        channelName: "[a-zA-Z0-9]+"
+
 broadcast:
-    path: /broadcast
+    path: /{channelName}/broadcast
     controller: App\Controller\BroadcasterController::broadcast
+    requirements:
+        channelName: "[a-zA-Z0-9]+"
 
 broadcast_processed:
-    path: /broadcast/processed/{notificationId}
+    path: /{channelName}/broadcast/processed/{notificationId}
     controller: App\Controller\BroadcasterController::broadcastProcessed
-
-receiver:
-    path: /receive
-    controller: App\Controller\ReceiverController::receiveMessage
+    requirements:
+        channelName: "[a-zA-Z0-9]+"
