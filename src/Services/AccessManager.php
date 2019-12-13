@@ -61,7 +61,8 @@ class AccessManager
         $userIp = $request->headers->get($this->userIpRequestHeaderName);
 
         if (!$userIp) {
-            throw new OutboundMessageTowerException(sprintf('User IP is not set in request header `%s`.', $this->userIpRequestHeaderName));
+            throw new OutboundMessageTowerException(sprintf('User IP is not set in request header `%s`.',
+                $this->userIpRequestHeaderName));
         }
 
         if (!in_array($userIp, $this->getAllowedIps())) {

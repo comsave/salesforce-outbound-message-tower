@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Exception\OutboundMessageTowerException;
+use App\Services\MessageRemover;
 use App\Services\NextMessageSelector;
-use App\Services\ProcessedMessageRemover;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +36,7 @@ class BroadcasterController extends AbstractController
 
     public function broadcastProcessed(
         Request $request,
-        ProcessedMessageRemover $processedMessageRemover,
+        MessageRemover $processedMessageRemover,
         string $channelName,
         string $notificationId
     ): Response {

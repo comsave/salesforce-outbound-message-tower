@@ -1,5 +1,4 @@
 parameters:
-    broadcast_messages_dir: '%kernel.project_dir%/%env(APP_BROADCAST_MESSAGES_DIR)%'
     slack_token: '%env(SLACK_TOKEN)%'
     slack_bot_name: '@@slack'
     slack_channel: '#monitoring'
@@ -16,10 +15,6 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-
-    App\Services\Factory\BroadcastMessagePathFactory:
-        arguments:
-            $broadcastMessagesDir: '%broadcast_messages_dir%'
 
     App\Services\AccessManager:
         arguments:

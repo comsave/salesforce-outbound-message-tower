@@ -34,12 +34,11 @@ RUN apk --no-cache --update add \
     php7-phar \
  && ln -s /usr/bin/php7 /usr/bin/php
 
-RUN pecl install mongodb \
- && docker-php-ext-enable mongodb
+RUN pecl install redis \
+ && docker-php-ext-enable redis
 
 RUN docker-php-ext-install \
-    zip \
-    soap
+    zip
 
 RUN mkdir -p /var/log/supervisor \
  && chmod -R 0777 /var/log/supervisor \

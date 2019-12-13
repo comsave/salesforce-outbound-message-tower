@@ -6,7 +6,7 @@ use App\Services\Builder\RedisClientBuilder;
 use App\Services\Parser\XmlRequestMessageNotificationIdParser;
 use App\Services\Validator\MessageNotificationIdValidator;
 
-class MessageReceiver
+class MessageRemover
 {
     /** @var XmlRequestMessageNotificationIdParser */
     private $xmlRequestMessageNotificationIdParser;
@@ -27,19 +27,13 @@ class MessageReceiver
         $this->redisClientBuilder = $redisClientBuilder;
     }
 
-    public function receive(string $channelName, string $xmlRequest): string
+    public function remove(string $channelName, string $notificationId): void
     {
-        $notificationId = $this->xmlRequestMessageNotificationIdParser->parse($xmlRequest);
         $this->messageNotificationIdValidator->validate($notificationId);
 
-        $this->redisClientBuilder->build()->zAdd(
+        $this->redisClientBuilder->build()->zRem(
             sprintf('salesforce_outbound_messages:%s', $channelName),
-            [],
-            microtime(true),
-            $notificationId,
-            base64_encode($xmlRequest)
+            $notificationId
         );
-
-        return $notificationId;
     }
 }

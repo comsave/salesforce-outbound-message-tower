@@ -2,42 +2,27 @@
 
 namespace App\Services;
 
-use App\Services\Factory\BroadcastMessagePathFactory;
+use App\Services\Builder\RedisClientBuilder;
 
 class NextMessageSelector
 {
-    /** @var BroadcastMessagePathFactory */
-    private $broadcastMessageFactory;
+    /** @var RedisClientBuilder */
+    private $redisClientBuilder;
 
-    /**
-     * @codeCoverageIgnore
-     */
-    public function __construct(BroadcastMessagePathFactory $broadcastMessageFactory)
+    public function __construct(RedisClientBuilder $redisClientBuilder)
     {
-        $this->broadcastMessageFactory = $broadcastMessageFactory;
+        $this->redisClientBuilder = $redisClientBuilder;
     }
 
     public function nextMessage(string $channelName): ?string
     {
-        $nextMessageFile = $this->nextMessageFile($channelName);
+        list($message) = $this->redisClientBuilder->build()->zRevRangeByScore(
+            sprintf('salesforce_outbound_messages:%s', $channelName),
+            PHP_INT_MAX,
+            0,
+            ['limit' => [0, 1]]
+        );
 
-        return $nextMessageFile ? file_get_contents($nextMessageFile) : null;
-    }
-
-    public function nextMessageFile(string $channelName): ?string
-    {
-        return $this->getAllMessageFiles($channelName)[0] ?? null;
-    }
-
-    public function getAllMessageFiles(string $channelName): array
-    {
-        $messageDir = $this->broadcastMessageFactory->getMessageFilePath($channelName, '*');
-        $messageFiles = glob($messageDir) ?: [];
-
-        usort($messageFiles, function (string $messageFileA, string $messageFileB) {
-            return filemtime($messageFileA) > filemtime($messageFileB);
-        });
-
-        return $messageFiles;
+        return base64_decode($message);
     }
 }
