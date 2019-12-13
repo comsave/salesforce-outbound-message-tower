@@ -6,8 +6,10 @@ Salesforce outbound message receiver and broadcaster for development environment
 
 ---
 ## Server side
-Routes are as follows:
 
+Build docker image: `docker build -f ./docker/Dockerfile -t comsave/salesforce-outbound-message-tower:latest .`
+
+Routes are as follows:
 * *server* `/{channelName}/receive` you send Salesforce outbound messages here
 * *client* `/{channelName}/broadcast` get the next unprocessed message 
 * *client* `/{channelName}/broadcast/processed/{notificationId}` mark notification as processed 
@@ -15,6 +17,14 @@ Routes are as follows:
 ## Client side
 Automatic listening for unprocessed messages & marking as processed afterwards.
 
-[salesforce-outbound-message-tower-bundle](https://github.com/comsave/salesforce-outbound-message-tower-bundle)
+## Local Development Dependencies
+```shell script
+# docker
+brew cask install docker
+# docker-sync
+gem install --user-install docker-sync
+brew install unison
+brew install eugenmayer/dockersync/unox
+```
 
-*1489*
+[salesforce-outbound-message-tower-bundle](https://github.com/comsave/salesforce-outbound-message-tower-bundle)

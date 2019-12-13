@@ -1,0 +1,15 @@
+version: '3.6'
+
+services:
+  omt:
+    image: comsave/salesforce-outbound-message-tower:master
+    environment:
+      - APP_ENV=prod
+      - APP_DEBUG=0
+    ports:
+      - 49999:80
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379

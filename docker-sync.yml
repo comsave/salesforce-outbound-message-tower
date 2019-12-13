@@ -1,0 +1,16 @@
+version: '2'
+
+options:
+  compose-file-path: 'docker-compose.yml'
+  compose-dev-file-path: 'docker-compose.dev.yml'
+
+  # optional, activate this if you need to debug something, default is false
+  # IMPORTANT: do not run stable with this, it creates a memory leak, turn off verbose when you are done testing
+  verbose: false
+
+syncs:
+  salesforce-outbound-message-tower-sync:
+    sync_strategy: 'unison'
+    src: './'
+    sync_excludes: ['.idea', '.git', '.docker-sync', 'var/docker', 'var/cache', 'var/logs', 'var/bootstrap.php.cache']
+    sync_userid: '33'

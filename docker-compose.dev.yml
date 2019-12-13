@@ -1,0 +1,14 @@
+version: '3.6'
+
+services:
+  omt:
+    image: comsave/salesforce-outbound-message-tower:latest
+    environment:
+      - APP_ENV=dev
+      - APP_DEBUG=1
+    volumes:
+      - salesforce-outbound-message-tower-sync:/app/project
+
+volumes:
+  salesforce-outbound-message-tower-sync:
+    external: true

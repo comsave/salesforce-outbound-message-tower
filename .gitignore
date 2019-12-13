@@ -10,6 +10,8 @@
 .idea/
 public/messages
 !public/messages/.gitkeep
+.docker-sync/
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
