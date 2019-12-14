@@ -3,9 +3,7 @@ language: php
 php:
   - 7.3
 
-install:
-  - pecl install redis
-  - composer install --dev
+install: composer install --dev
 
 script: composer run-coverage
 
@@ -14,6 +12,7 @@ env:
     - CC_TEST_REPORTER_ID=f90bdc6d7ff67ac3d734f3c01527980813c3f50225e4ecf873b77b11e6f0bea3
 
 before_script:
+  - pecl install redis
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
