@@ -71,9 +71,9 @@
             "docker-sync start",
             "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d"
         ],
-        "run-tests": "vendor/bin/phpunit --no-coverage",
-        "run-coverage": "vendor/bin/phpunit --coverage-clover tests/_output/coverage.xml",
-        "run-coverage-text": "vendor/bin/phpunit --coverage-text=tests/_output/coverage.txt && cat tests/_output/coverage.txt"
+        "run-tests": "bin/phpunit --no-coverage",
+        "run-coverage": "bin/phpunit --coverage-clover tests/_output/coverage.xml",
+        "run-coverage-text": "bin/phpunit --coverage-text=tests/_output/coverage.txt && cat tests/_output/coverage.txt"
     },
     "conflict": {
         "symfony/symfony": "*"
