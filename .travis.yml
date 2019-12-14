@@ -3,7 +3,9 @@ language: php
 php:
   - 7.3
 
-install: composer install --dev
+install:
+  - pecl install redis
+  - composer install --dev
 
 script: composer run-coverage
 
