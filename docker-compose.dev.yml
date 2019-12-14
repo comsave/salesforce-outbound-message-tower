@@ -9,6 +9,10 @@ services:
     volumes:
       - salesforce-outbound-message-tower-sync:/app/project
 
+  redis:
+    ports:
+      - 6379:6379
+
 volumes:
   salesforce-outbound-message-tower-sync:
     external: true

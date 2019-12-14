@@ -16,13 +16,19 @@ class NextMessageSelector
 
     public function nextMessage(string $channelName): ?string
     {
-        list($message) = $this->redisClientBuilder->build()->zRevRangeByScore(
+        $scanResult = $this->redisClientBuilder->build()->zRangeByScore(
             sprintf('salesforce_outbound_messages:%s', $channelName),
-            PHP_INT_MAX,
             0,
+            PHP_INT_MAX,
             ['limit' => [0, 1]]
         );
 
-        return base64_decode($message);
+        if(!$scanResult){
+            return null;
+        }
+
+        list($message) = $scanResult;
+
+        return base64_decode(preg_replace('/^[a-z0-9]{15,18}:/i', '', $message));
     }
 }

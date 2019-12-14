@@ -36,8 +36,7 @@ class MessageReceiver
             sprintf('salesforce_outbound_messages:%s', $channelName),
             [],
             microtime(true),
-            $notificationId,
-            base64_encode($xmlRequest)
+            sprintf('%s:%s', $notificationId, base64_encode($xmlRequest))
         );
 
         return $notificationId;

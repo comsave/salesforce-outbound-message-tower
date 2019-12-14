@@ -31,9 +31,20 @@ class MessageRemover
     {
         $this->messageNotificationIdValidator->validate($notificationId);
 
-        $this->redisClientBuilder->build()->zRem(
+        $redis = $this->redisClientBuilder->build();
+        $iterator = null;
+
+        $matches = $redis->zScan(
             sprintf('salesforce_outbound_messages:%s', $channelName),
-            $notificationId
+            $iterator,
+            sprintf('%s:*', $notificationId)
         );
+
+        if ($matches) {
+            $redis->zRem(
+                sprintf('salesforce_outbound_messages:%s', $channelName),
+                array_keys($matches)[0]
+            );
+        }
     }
 }

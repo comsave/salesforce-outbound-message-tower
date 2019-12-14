@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Exception\OutboundMessageTowerException;
 use App\Services\MessageReceiver;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,8 +13,12 @@ use Throwable;
 
 class ReceiverController extends AbstractController
 {
-    public function receiveMessage(Request $request, MessageReceiver $messageReceiver, string $channelName): Response
-    {
+    public function receiveMessage(
+        Request $request,
+        MessageReceiver $messageReceiver,
+        LoggerInterface $logger,
+        string $channelName
+    ): Response {
         $xmlRequest = $request->getContent();
 
         try {
@@ -24,6 +29,8 @@ class ReceiverController extends AbstractController
                 'message' => sprintf($ex->getMessage()),
             ], Response::HTTP_BAD_REQUEST);
         } catch (Throwable $ex) {
+            $logger->critical($ex->getMessage(), $ex->getTrace());
+
             return new JsonResponse([
                 'status' => 'Error',
                 'message' => 'Failed unexpectedly. Look for details in the logs.',

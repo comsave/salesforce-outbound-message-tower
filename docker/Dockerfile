@@ -32,13 +32,16 @@ RUN apk --no-cache --update add \
     php7-opcache \
     php7-curl \
     php7-phar \
+#    php7-redis \
  && ln -s /usr/bin/php7 /usr/bin/php
-
-RUN pecl install redis \
- && docker-php-ext-enable redis
 
 RUN docker-php-ext-install \
     zip
+
+RUN pecl install \
+    redis \
+ && docker-php-ext-enable \
+    redis
 
 RUN mkdir -p /var/log/supervisor \
  && chmod -R 0777 /var/log/supervisor \

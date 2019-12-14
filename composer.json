@@ -8,7 +8,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-redis": "*",
-        "predis/predis": "^1.1",
         "symfony/console": "4.3.*",
         "symfony/dotenv": "4.3.*",
         "symfony/flex": "^1.3.1",

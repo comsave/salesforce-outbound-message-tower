@@ -8,8 +8,10 @@ services:
       - APP_DEBUG=0
     ports:
       - 49999:80
+    depends_on:
+      - redis
 
   redis:
     image: redis:alpine
-    ports:
-      - 6379:6379
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes

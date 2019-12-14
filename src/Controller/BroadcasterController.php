@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Exception\OutboundMessageTowerException;
 use App\Services\MessageRemover;
 use App\Services\NextMessageSelector;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +14,11 @@ use Throwable;
 
 class BroadcasterController extends AbstractController
 {
-    public function broadcast(NextMessageSelector $nextMessageSelector, string $channelName): Response
-    {
+    public function broadcast(
+        NextMessageSelector $nextMessageSelector,
+        LoggerInterface $logger,
+        string $channelName
+    ): Response {
         try {
             $nextMessage = $nextMessageSelector->nextMessage($channelName);
         } catch (OutboundMessageTowerException $ex) {
@@ -23,6 +27,8 @@ class BroadcasterController extends AbstractController
                 'message' => sprintf($ex->getMessage()),
             ], Response::HTTP_BAD_REQUEST);
         } catch (Throwable $ex) {
+            $logger->critical($ex->getMessage(), $ex->getTrace());
+
             return new JsonResponse([
                 'status' => 'Error',
                 'message' => 'Failed unexpectedly. Look for details in the logs.',
@@ -35,8 +41,8 @@ class BroadcasterController extends AbstractController
     }
 
     public function broadcastProcessed(
-        Request $request,
         MessageRemover $processedMessageRemover,
+        LoggerInterface $logger,
         string $channelName,
         string $notificationId
     ): Response {
@@ -48,6 +54,8 @@ class BroadcasterController extends AbstractController
                 'message' => sprintf($ex->getMessage()),
             ], Response::HTTP_BAD_REQUEST);
         } catch (Throwable $ex) {
+            $logger->critical($ex->getMessage(), $ex->getTrace());
+
             return new JsonResponse([
                 'status' => 'Error',
                 'message' => 'Failed unexpectedly. Look for details in the logs.',
