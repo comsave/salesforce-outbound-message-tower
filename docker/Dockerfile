@@ -58,18 +58,11 @@ COPY ./docker/setup/nginx/conf.d/app.conf.template /etc/nginx/conf.d/app.conf
 COPY ./docker/setup/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/setup/php/php.ini.template /usr/local/etc/php/php.ini
 
-#COPY ./docker/php-fpm/setup/cron.d/symfony_cronjobs.template /etc/cron.d/symfony_cronjobs
-#RUN crontab /etc/cron.d/symfony_cronjobs
-#RUN chmod 0644 /etc/cron.d/symfony_cronjobs
-
 WORKDIR /app/project
 COPY ./ ./
 
 RUN composer install --no-interaction --no-scripts --quiet
 RUN chown -R www-data:www-data $(pwd)
-
-#RUN adduser www-data root
-#USER www-data
 
 COPY ./docker/setup/init.sh /tmp/init.sh
 CMD ["/bin/bash", "/tmp/init.sh"]
