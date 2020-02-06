@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aeeaa1b032514404b1c228f55e412129",
+    "content-hash": "1fe3b72edf26e3f7fef881035168e655",
     "packages": [
         {
             "name": "markrogoyski/ipv4-subnet-calculator",
@@ -4206,7 +4206,8 @@
         "php": ">=7.2",
         "ext-simplexml": "^7.3",
         "ext-ctype": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-redis": "^5.1"
     },
     "platform-dev": []
 }
