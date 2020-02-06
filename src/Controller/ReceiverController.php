@@ -13,6 +13,17 @@ use Throwable;
 
 class ReceiverController extends AbstractController
 {
+    public const ACK_RESPONSE = '<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:ns1="http://soap.sforce.com/2005/09/outbound">
+  <SOAP-ENV:Body>
+    <ns1:notificationsResponse>
+      <ns1:Ack>true</ns1:Ack>
+    </ns1:notificationsResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>';
+
     public function receiveMessage(
         Request $request,
         MessageReceiver $messageReceiver,
@@ -22,7 +33,8 @@ class ReceiverController extends AbstractController
         $xmlRequest = $request->getContent();
 
         try {
-            $notificationId = $messageReceiver->receive($channelName, $xmlRequest);
+//            $notificationId = $messageReceiver->receive($channelName, $xmlRequest);
+            $messageReceiver->receive($channelName, $xmlRequest);
         } catch (OutboundMessageTowerException $ex) {
             return new JsonResponse([
                 'status' => 'Error',
@@ -37,9 +49,10 @@ class ReceiverController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        return new JsonResponse([
-            'status' => 'OK',
-            'message' => sprintf('Received notification `%s`.', $notificationId),
-        ], Response::HTTP_OK);
+        return new Response(static::ACK_RESPONSE);
+//        return new JsonResponse([
+//            'status' => 'OK',
+//            'message' => sprintf('Received notification `%s`.', $notificationId),
+//        ], Response::HTTP_OK);
     }
 }
