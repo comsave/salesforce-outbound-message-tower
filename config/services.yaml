@@ -1,5 +1,5 @@
 parameters:
-    slack_token: '%env(SLACK_TOKEN)%'
+    slack_token: '%env(resolve:SLACK_TOKEN)%'
     slack_bot_name: '@@tower'
     slack_channel: '#monitoring'
 
@@ -18,5 +18,5 @@ services:
 
     App\Services\AccessManager:
         arguments:
-            $userIpRequestHeaderName: '%env(APP_USER_IP_REQUEST_HEADER)%'
-            $alloweadIps: '%env(APP_ALLOWED_IP_ADDRESSES)%'
+            $userIpRequestHeaderName: '%env(resolve:APP_USER_IP_REQUEST_HEADER)%'
+            $allowedIps: '%env(resolve:APP_ALLOWED_IP_ADDRESSES)%'
