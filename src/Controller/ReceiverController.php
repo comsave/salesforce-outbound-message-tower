@@ -49,7 +49,10 @@ class ReceiverController extends AbstractController
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        return new Response(static::ACK_RESPONSE);
+        $response = new Response(static::ACK_RESPONSE);
+        $response->headers->set('Content-Type', 'text/xml');
+
+        return $response;
 //        return new JsonResponse([
 //            'status' => 'OK',
 //            'message' => sprintf('Received notification `%s`.', $notificationId),
