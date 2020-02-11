@@ -6,16 +6,16 @@ receiver:
     path: /{channelName}/receive
     controller: App\Controller\ReceiverController::receiveMessage
     requirements:
-        channelName: "[a-zA-Z0-9]+"
+        channelName: "[a-zA-Z0-9-_]+"
 
 broadcast:
     path: /{channelName}/broadcast
     controller: App\Controller\BroadcasterController::broadcast
     requirements:
-        channelName: "[a-zA-Z0-9]+"
+        channelName: "[a-zA-Z0-9-_]+"
 
 broadcast_processed:
     path: /{channelName}/broadcast/processed/{notificationId}
     controller: App\Controller\BroadcasterController::broadcastProcessed
     requirements:
-        channelName: "[a-zA-Z0-9]+"
+        channelName: "[a-zA-Z0-9-_]+"
