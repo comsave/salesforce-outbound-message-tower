@@ -1,8 +1,9 @@
 # salesforce-outbound-message-tower
 Salesforce outbound message receiver and broadcaster for development environment. 
 
-![](https://img.shields.io/github/v/release/comsave/salesforce-outbound-message-tower)
-![](https://img.shields.io/travis/comsave/salesforce-outbound-message-tower)
+[![Release](https://img.shields.io/github/v/release/comsave/salesforce-outbound-message-tower)](https://github.com/comsave/salesforce-outbound-message-tower/releases)
+[![Travis](https://img.shields.io/travis/comsave/salesforce-outbound-message-tower)](https://travis-ci.org/comsave/salesforce-outbound-message-tower)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/comsave/salesforce-outbound-message-tower)](https://codeclimate.com/github/comsave/salesforce-outbound-message-tower)
 
 ---
 ## Server side
@@ -27,4 +28,4 @@ brew install unison
 brew install eugenmayer/dockersync/unox
 ```
 
-[salesforce-outbound-message-tower-bundle](https://github.com/comsave/salesforce-outbound-message-tower-bundle)
+[salesforce-outbound-message-tower-bundle](https://github.com/comsave/salesforce-outbound-message-tower)
