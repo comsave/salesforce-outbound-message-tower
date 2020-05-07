@@ -1,5 +1,5 @@
 parameters:
-    slack_token: '%env(resolve:SLACK_TOKEN)%'
+    slack_token: '%env(resolve:SLACK_WEBHOOK)%'
     slack_bot_name: '@@tower'
     slack_channel: '#monitoring'
 

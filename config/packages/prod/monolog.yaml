@@ -20,9 +20,9 @@ monolog:
             time: 180
             handler: slack_errors
         slack_errors:
-            type:        slack
+            type:        slackwebhook
             level: critical
-            token:       '%slack_token%'
+            token:       '%slack_webhook%'
             channel:     '%slack_channel%'
             bot_name:    '%slack_bot_name%'
             icon_emoji:  ':ghost:'
