@@ -22,7 +22,7 @@ monolog:
         slack_errors:
             type:        slackwebhook
             level: critical
-            token:       '%slack_webhook%'
+            webhook_url:       '%slack_webhook%'
             channel:     '%slack_channel%'
             bot_name:    '%slack_bot_name%'
             icon_emoji:  ':ghost:'
