@@ -56,6 +56,7 @@ RUN mkdir -p /app/logs/www
 RUN rm -rf /etc/nginx/conf.d/default.conf
 COPY ./docker/setup/nginx/conf.d/app.conf.template /etc/nginx/conf.d/app.conf
 COPY ./docker/setup/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/setup/php-fpm.d/site.conf /etc/php7/php-fpm.d/www.conf
 COPY ./docker/setup/php/php.ini.template /usr/local/etc/php/php.ini
 
 WORKDIR /app/project

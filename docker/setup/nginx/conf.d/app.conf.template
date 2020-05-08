@@ -11,6 +11,10 @@ server {
     }
 
     location ~ ^/index\.php(/|$) {
+        server_tokens off;
+        client_max_body_size 20m;
+        client_body_buffer_size 128k;
+
         proxy_set_header  Host $host;
         proxy_set_header  X-Real-IP $http_x_real_ip;
 
